@@ -1,6 +1,8 @@
 package telrun.anotherTime;
 
+import java.time.LocalDate;
 import java.time.temporal.*;
+import java.util.Arrays;
 
 public class WorkingDaysAdjuster implements TemporalAdjuster {
 
@@ -25,28 +27,24 @@ public class WorkingDaysAdjuster implements TemporalAdjuster {
 
 	@Override
 	public Temporal adjustInto(Temporal temporal) {
-		if (daysOff.length == 7) {
+		LocalDate res = LocalDate.from(temporal);
+		if (Arrays.stream(daysOff).filter(x-> x>=1 && x<= 7).distinct().count()==7) {
 			return temporal;
 		}
 		if (daysOff.length == 0) {
-			return temporal.plus(nDays, ChronoUnit.DAYS);
+			return temporal.with(res.plus(nDays, ChronoUnit.DAYS));
 		}
-
+		
 		while (nDays != 0) {
-			temporal = temporal.plus(1, ChronoUnit.DAYS);
-			if (isWorkingDay(temporal)) {
+			res = res.plus(1, ChronoUnit.DAYS);
+			if (!isWorkingDay(res)) {
 				nDays--;
 			}
 		}
-		return temporal;
+		return temporal.with(res);
 	}
 
 	private boolean isWorkingDay(Temporal temporal) {
-		for (int i = 0; i < daysOff.length; i++) {
-			if (daysOff[i] == ChronoField.DAY_OF_WEEK.getFrom(temporal)) {
-				return false;
-			}
-		}
-		return true;
+		return Arrays.stream(daysOff).anyMatch(n->n==ChronoField.DAY_OF_WEEK.getFrom(temporal));
 	}
 }
