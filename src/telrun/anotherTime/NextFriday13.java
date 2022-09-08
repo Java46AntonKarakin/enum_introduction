@@ -12,11 +12,11 @@ public class NextFriday13 implements TemporalAdjuster {
 	@Override
 	public Temporal adjustInto(Temporal temporal) {
 		LocalDate res = LocalDate.from(temporal.plus(1, ChronoUnit.DAYS));
-		while (ChronoField.DAY_OF_WEEK.getFrom(res) != DayOfWeek.FRIDAY.ordinal()+1) {
+		while (ChronoField.DAY_OF_MONTH.getFrom(res) != 13) {
 			res = res.plus(1, ChronoUnit.DAYS);
 		}
-		while  (ChronoField.DAY_OF_MONTH.getFrom(res) != 13) {
-			res = res.plus(1, ChronoUnit.WEEKS);
+		while  (ChronoField.DAY_OF_WEEK.getFrom(res) != DayOfWeek.FRIDAY.ordinal()+1) {
+			res = res.plus(1, ChronoUnit.MONTHS);
 		}
 		return temporal.with(res);
 	}
