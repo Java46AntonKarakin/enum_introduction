@@ -26,7 +26,6 @@ public class PrintCalendar {
 
 	private static void printDates(int month, int year, int weekBeginsWith) {
 		int column = getFirstColumn(month, year, weekBeginsWith);
-		System.out.println("column = " + column);
 		printOffset(column);
 		int nDays = getMonthDays(month, year);
 		int nWeedDays = DayOfWeek.values().length;
@@ -111,21 +110,21 @@ public class PrintCalendar {
 			boolean flIsMatch = false;
 			if (inputValue.matches("([A-Z])*")) {
 				for (var day : DayOfWeek.values()) {
-					if (day.equals(DayOfWeek.values()[day.getValue()-1])) {
+					if (inputValue.equals(day.toString())) {
 						flIsMatch = true;
 						break;
 					}
 				}
 				if (!flIsMatch) {
-					throw new Exception(String.format(" <<%s>> is wrong format ", inputValue));
+					throw new Exception(String.format(" <<%s>> is not a day of the week", inputValue));
 				}
 			} else { 
-				throw new Exception(String.format(" <<%s>> is wrong format ", inputValue));
+				throw new Exception(String.format(" <<%s>> is not a day of the week", inputValue));
 			}
 
 			return DayOfWeek.valueOf(inputValue).getValue();
 		} catch (NumberFormatException e) {
-			throw new Exception("vronk year -> not 4islo");
+			throw new Exception("plz enter the name of the day of the week on which the week should start");
 		}
 
 	}
@@ -134,11 +133,11 @@ public class PrintCalendar {
 		try {
 			int res = Integer.parseInt(yearStr);
 			if (res <= 0) {
-				throw new Exception("year should pe positiv");
+				throw new Exception("year value should be as positive as quokka.");
 			}
 			return res;
 		} catch (NumberFormatException e) {
-			throw new Exception("vronk year");
+			throw new Exception("plz enter year value in format <YYYY>");
 		}
 	}
 
@@ -147,11 +146,11 @@ public class PrintCalendar {
 			var month = Month.values().length;
 			int res = Integer.parseInt(monthStr);
 			if (res < 1 || res > month) {
-				throw new Exception(String.format("month %d is vronk value, should be [1, %d]", res, month));
+				throw new Exception(String.format("month %d is wrong value, should be [1, %d]", res, month));
 			}
 			return res;
 		} catch (NumberFormatException e) {
-			throw new Exception("vronk year");
+			throw new Exception("plz enter month value in format <MM>");
 		}
 	}
 }
