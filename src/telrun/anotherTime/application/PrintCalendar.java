@@ -17,7 +17,7 @@ public class PrintCalendar {
 			System.out.println(e.getMessage());
 		}
 	}
-
+	
 	private static void printCalendar(int month, int year, int weekBeginsWith) {
 		printTitle(month, year, weekBeginsWith);
 		printWeekDays(weekBeginsWith);
@@ -133,7 +133,7 @@ public class PrintCalendar {
 		try {
 			int res = Integer.parseInt(yearStr);
 			if (res <= 0) {
-				throw new Exception("year value should be as positive as quokka.");
+				throw new Exception(String.format(" <%d> is wrong value for YEAR, should be > 0", res));
 			}
 			return res;
 		} catch (NumberFormatException e) {
@@ -146,7 +146,7 @@ public class PrintCalendar {
 			var month = Month.values().length;
 			int res = Integer.parseInt(monthStr);
 			if (res < 1 || res > month) {
-				throw new Exception(String.format("month %d is wrong value, should be [1, %d]", res, month));
+				throw new Exception(String.format(" <%d> is wrong value for MONTH, should be [1, 12]", res));
 			}
 			return res;
 		} catch (NumberFormatException e) {
